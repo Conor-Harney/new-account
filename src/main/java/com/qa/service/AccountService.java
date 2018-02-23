@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import com.qa.domain.Account;
 import com.qa.repository.MyRepo;
+import com.qa.repository.MyRepoIFace;
 
 public class AccountService {
 
@@ -15,7 +16,7 @@ public class AccountService {
 	private int count = 0;
 	
 	@Inject
-	private MyRepo repo;
+	private MyRepoIFace repo;
 
 	public AccountService() {
 		accountMap = new HashMap<Integer, Account>();

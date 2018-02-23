@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import org.apache.log4j.Logger;
 
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -20,8 +21,8 @@ import com.qa.util.JSONUtil;
 
 
 @Transactional(javax.transaction.Transactional.TxType.SUPPORTS)
-@Default
-public class MyRepo implements MyRepoIFace {
+@Alternative
+public class MyRepoAlt implements MyRepoIFace {
 	//repo
 	
 	@PersistenceContext(unitName = "primary")
@@ -30,11 +31,13 @@ public class MyRepo implements MyRepoIFace {
 	@Inject
 	private JSONUtil util;
 	
-	private static final Logger LOGGER = Logger.getLogger(MyRepo.class);
+	private static final Logger LOGGER = Logger.getLogger(MyRepoAlt.class);
 
 
+	//@Transactional(javax.transaction.Transactional.TxType.REQUIRED)
+	@Override
 	public String getAllAccounts() {
-		LOGGER.info("default Repo!-------------------------------------------------------------------");
+		LOGGER.info("Alt Repo!-------------------------------------------------------------------");
 		//util.getObjectFromJson
 		//query = em.createQuery("SELECT *");
 		Query query;
@@ -53,8 +56,8 @@ public class MyRepo implements MyRepoIFace {
 
 	@Transactional(javax.transaction.Transactional.TxType.REQUIRED)
 	public String createAccount(String accountStr) {
+		LOGGER.info("Alt Repo!-------------------------------------------------------------------");
 		LOGGER.info("body------:" + accountStr);
-		
 		Account account = util.getObjectForJSON(accountStr, Account.class);
 		em.persist(account);
 		return "{\"message\": \"account has been sucessfully added\"}";
@@ -62,6 +65,7 @@ public class MyRepo implements MyRepoIFace {
 
 	@Transactional(javax.transaction.Transactional.TxType.REQUIRED)
 	public String updateAccount(Long id, String accountStr) {
+		LOGGER.info("Alt Repo!-------------------------------------------------------------------");
 		LOGGER.info("body------:" + accountStr);
 		Account updatedAccount = util.getObjectForJSON(accountStr, Account.class);
 		Account accountFromDB = em.find(Account.class, id);
@@ -83,6 +87,7 @@ public class MyRepo implements MyRepoIFace {
 
 	@Transactional(javax.transaction.Transactional.TxType.REQUIRED)
 	public String deleteAccount(Long id) {
+		LOGGER.info("Alt Repo!-------------------------------------------------------------------");
 		//return "{\"message\": \"account sucessfully deleted\"}";
 		LOGGER.info("id---------:" + id);
 		Account accountInDB = em.find(Account.class, id);
