@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity 
+@Entity
 public class Account {
 
 	@Column
@@ -16,11 +16,20 @@ public class Account {
 	@Column
 	private String accountNumber;
 	@Id  @GeneratedValue(strategy=GenerationType.IDENTITY) long id;
+	
+	
 
 	public Account(String firstName, String secondName, String accountNumber) {
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.accountNumber = accountNumber;
+	}
+	
+	public Account()
+	{
+		this.firstName = "wrong constructor";
+		this.secondName = "wrong constructor";
+		this.accountNumber = "00000";
 	}
 
 	public String getFirstName() {
